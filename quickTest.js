@@ -1,14 +1,11 @@
 let logo = require('./lib/index')
 
 let commands = `
-to out :first :second
-  (print :first :second)
+TO square :len
+  repeat 4 [fd :len rt 90]
 end
 
-(out "hello "world)
-(SETSC 99 0 99)
-clean
-REPEAT 4 [FD 100 RT 90]
+SQUARE 2
 `
 
 logo.convert(commands, (err, obj) => {
@@ -18,7 +15,8 @@ logo.convert(commands, (err, obj) => {
     output = JSON.stringify({ error: err })
   } else {
     // Success, return the command stream
-    output = JSON.stringify(obj, null, 2)
+    output = `ok ${obj.length}\n`
+    obj.forEach((command, i) => { output += `${i}: ${JSON.stringify(command)}\n` })
   }
 
   console.log(output)
